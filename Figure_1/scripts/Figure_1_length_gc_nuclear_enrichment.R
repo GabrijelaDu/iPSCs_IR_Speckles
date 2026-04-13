@@ -13,7 +13,7 @@
 # Input file:
 # merged_data_GC_filtered.csv is a filtered table in which introns were
 # retained only if they had:
-# - at least 5 non-missing nuclear measurements across the time course
+# - at least 5 non-missing nuclear PIR values across the time course
 # - Nuc_UT_TPM_mean >= 5
 #
 # In this script, introns are classified as:
