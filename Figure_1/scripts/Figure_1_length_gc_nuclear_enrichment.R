@@ -9,6 +9,19 @@
 #   └── scripts/
 #   └── Figure_1_length_gc_nuclear_enrichment.R
 # This script assumes it is run from the scripts/ folder.
+
+# Input file:
+# merged_data_GC_filtered.csv is a filtered table in which introns were
+# retained only if they had:
+# - at least 5 non-missing nuclear measurements across the time course
+# - Nuc_UT_TPM_mean >= 5
+#
+# In this script, introns are classified as:
+# - IR:   Nuc_UT_mean >= 30
+# - noIR: Nuc_UT_mean < 30
+#
+# For nuclear enrichment analysis, one intron per gene is retained by selecting
+# the intron with the highest Nuc_UT_mean.
 # =========================================================
 
 # -----------------------------
@@ -23,7 +36,6 @@ library(grid)
 # -----------------------------
 # Paths
 # -----------------------------
-setwd("~/Documents/GitHub/iPSCs_IR_Speckles/Figure_1/scripts")
 input_file <- "../data/merged_data_GC_filtered.csv"
 output_dir <- "../results"
 
