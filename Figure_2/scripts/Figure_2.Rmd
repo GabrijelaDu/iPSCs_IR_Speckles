@@ -828,9 +828,9 @@ gene_stability_df_unique <- gene_stability_df %>%
 ```{r}
 sets_list_50cut_coord <- list(
   "Stable 4h"       = unique(stableR4h_50cut$COORD),
-  "Unstable 4h"     = unique(unstableR4h_cleaned_50cut$COORD),
-  "Unstable 30min"  = unique(unstableR30min_cleaned_50cut$COORD),
-  "Unstable 2h"     = unique(unstableR2h_cleaned_50cut$COORD),
+  "Unstable 4h"     = unique(unstableR4h_50cut$COORD),
+  "Unstable 30min"  = unique(unstableR30min_50cut$COORD),
+  "Unstable 2h"     = unique(unstableR2h_50cut$COORD),
   "No IR"           = unique(noIR_50cut$COORD)
 )
 
@@ -921,7 +921,7 @@ gene_stability_df_unique_50cut <- gene_stability_df_50cut %>%
   distinct(GENE, .keep_all = TRUE)
 ```
 
-### Line plots of RNA stability, GO terms, and nuclear enrichment at the 30% PIR cutoff ###
+### Line plots of RNA stability and nuclear enrichment at the 30% PIR cutoff ###
 ```{r}
 # For RNA stability analyses in the nucleus and cytoplasm, we applied expression
 # thresholds to remove low-abundance transcripts. To assess cytoplasmic RNA
@@ -1007,7 +1007,7 @@ l_30 <- ggplot(long_exclusive_data, aes(x = Time, y = TPM_stability, color = GEN
 
 ggsave(
   filename = "Figure_2_l_30.pdf",
-  plot = l_50,
+  plot = l_30,
   device = "pdf",
   width = 10,
   height = 8,
@@ -1156,7 +1156,7 @@ ggsave(
 )
 ```
 
-### Line plots of RNA stability, GO terms, and nuclear enrichment at the 50% PIR cutoff ###
+### Line plots of RNA stability and nuclear enrichment at the 50% PIR cutoff ###
 ```{r}
 combined_dataTPMno100_50cut <- combined_data_50cut %>%
   filter(Nuc_UT_TPM_mean >= 7 & Cyt_UT_TPM_mean >= 7) %>%
