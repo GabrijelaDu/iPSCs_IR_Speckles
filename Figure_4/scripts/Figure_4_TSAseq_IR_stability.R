@@ -17,7 +17,6 @@
 # retained only if they had:
 # - at least 5 non-missing nuclear PIR values across the time course
 # - Nuc_UT_TPM_mean >= 5
-# - duplicate EVENT entries removed
 # =========================================================
 
 # -----------------------------
@@ -232,7 +231,6 @@ combined_data <- bind_rows(
 )
 
 combined_dataTPMno100 <- combined_data %>%
-  filter(Nuc_UT_TPM_mean >= 5) %>%
   filter(
     is.na(Cyt_A_UT_1.x) | is.na(Cyt_B_UT_1.x) |
       (Cyt_A_UT_1.x < 99 & Cyt_B_UT_1.x < 99)
@@ -422,15 +420,33 @@ t <- ggplot(tsa_overlap_plot, aes(x = stability, y = percent, fill = group)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 print(t)
+output_dir <- "../results"
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+
+ggsave(
+  filename = file.path(output_dir, "TSASeq_IR_stability_stacked_barplot.pdf"),
+  plot = t,
+  width = 7,
+  height = 5
+)
 
 # -----------------------------
 # Export percentage table
 # -----------------------------
+output_dir <- "../results"
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+
 percent_table <- tsa_overlap_plot %>%
   dplyr::select(group, stability, percent) %>%
   pivot_wider(names_from = stability, values_from = percent)
 
 print(percent_table, n = Inf)
+
+write.csv(
+  percent_table,
+  file.path(output_dir, "TSAseq_stability_group_percentages_overlap_positive_corrected.csv"),
+  row.names = FALSE
+)
 
 # -----------------------------
 # Proximal overlap summary
@@ -506,3 +522,12 @@ fisher_results <- bind_rows(
 fisher_results$p.adj <- p.adjust(fisher_results$`p-value`, method = "BH")
 
 print(fisher_results)
+
+output_dir <- "../results"
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+
+write.csv(
+  fisher_results,
+  file.path(output_dir, "TSAseq_Group9_10_enrichment_vs_stable_corrected.csv"),
+  row.names = FALSE
+)
